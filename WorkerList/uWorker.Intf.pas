@@ -3,8 +3,14 @@ unit uWorker.Intf;
 interface
 
 type
+  ILineFeeder = interface
+    function Eof: Boolean;
+    function ReadString: string;
+  end;
+
   IReader = interface
     function ReadAll: string;
+    function Lines: ILineFeeder;
     function ReadStrings: TArray<string>;
   end;
 
