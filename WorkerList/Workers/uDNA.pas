@@ -9,6 +9,7 @@ type
   TDNA_Worker = class(TInterfacedObject, IWorker)
   strict private
     function GetName: string;
+    function InternalCalc(const aInput: string): string;
   public
     procedure DoWork(Reader: IReader; Writer: IWriter);
     property Name: string read GetName;
@@ -22,10 +23,19 @@ uses
 { TDNA_Worker }
 
 procedure TDNA_Worker.DoWork(Reader: IReader; Writer: IWriter);
+begin
+  Writer.WriteAll(InternalCalc(Reader.ReadAll));
+end;
+
+function TDNA_Worker.GetName: string;
+begin
+  Result := 'DNA';
+end;
+
+function TDNA_Worker.InternalCalc(const aInput: string): string;
 var
-  Ch: Char;
-  DNA_data: string;
   CharCount: TDictionary<Char, Integer>;
+  Ch: Char;
 begin
   CharCount := TDictionary<Char, Integer>.Create(4);
   try
@@ -33,21 +43,15 @@ begin
     CharCount.Add('C', 0);
     CharCount.Add('G', 0);
     CharCount.Add('T', 0);
-    DNA_data := Reader.ReadAll;
-    for Ch in DNA_data do
+    for Ch in aInput do
     begin
       if CharCount.ContainsKey(Ch) then
         CharCount[Ch] := CharCount[Ch] + 1;
     end;
-    Writer.WriteAll(Format('%d %d %d %d', [CharCount['A'], CharCount['C'], CharCount['G'], CharCount['T']]));
+    Result := Format('%d %d %d %d', [CharCount['A'], CharCount['C'], CharCount['G'], CharCount['T']]);
   finally
     FreeAndNil(CharCount);
   end;
-end;
-
-function TDNA_Worker.GetName: string;
-begin
-  Result := 'DNA';
 end;
 
 initialization
