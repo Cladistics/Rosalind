@@ -4,7 +4,7 @@ interface
 
 uses
   Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
-  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, uWorkersManager;
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, uWorkersManager, uWorker.Intf;
 
 type
   TMainForm = class(TForm)
@@ -17,9 +17,10 @@ type
     procedure btnStartClick(Sender: TObject);
   strict private
     FWorkersManager: TWorkersManager;
+    FReader: IReader;
+    FWriter: IWriter;
     procedure Init;
   public
-
   end;
 
 var
@@ -30,12 +31,12 @@ implementation
 {$R *.dfm}
 
 uses
-  uMemoWriter;
+  uTextFileReader, uMemoWriter;
 
 procedure TMainForm.btnStartClick(Sender: TObject);
 begin
   mmOutput.Lines.Clear;
-  FWorkersManager.StartWork(rgWorkers.ItemIndex, TMemoWriter.Create(mmOutput));
+  FWorkersManager.StartWork(rgWorkers.ItemIndex, FReader, FWriter);
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
@@ -56,6 +57,8 @@ begin
   for WorkerName in FWorkersManager.WorkersNameList do
     rgWorkers.Items.Add(WorkerName);
   rgWorkers.Height := rgWorkers.Items.Count * 16 + 25;
+  FReader := TTextFileReader.Create;
+  FWriter := TMemoWriter.Create(mmOutput);
 end;
 
 end.

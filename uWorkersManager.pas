@@ -9,19 +9,18 @@ type
   TWorkersManager = class
   strict private
     FWorkersList: TList<IWorker>;
-    FReader: IReader;
     function GetWorkersNameList: TArray<string>;
   public
     constructor Create;
     destructor Destroy; override;
-    procedure StartWork(const AWorkerIndex: Integer; const Writer: IWriter);
+    procedure StartWork(const AWorkerIndex: Integer; const Reader: IReader; const Writer: IWriter);
     property WorkersNameList: TArray<string> read GetWorkersNameList;
   end;
 
 implementation
 
 uses
-  System.SysUtils, uTextFileReader, uAdditionalClasses, uWorkerList;
+  System.SysUtils, uAdditionalClasses, uWorkerList;
 
 { TWorkersManager }
 
@@ -29,7 +28,6 @@ constructor TWorkersManager.Create;
 var
   Worker: IWorker;
 begin
-  FReader := TTextFileReader.Create;
   FWorkersList := TList<IWorker>.Create;
   for Worker in WorkerList do
     FWorkersList.Add(Worker);
@@ -56,11 +54,11 @@ begin
   Result := Lst;
 end;
 
-procedure TWorkersManager.StartWork(const AWorkerIndex: Integer; const Writer: IWriter);
+procedure TWorkersManager.StartWork(const AWorkerIndex: Integer; const Reader: IReader; const Writer: IWriter);
 begin
   if FWorkersList.Count <= AWorkerIndex then
     raise EWorkerNotExist.Create;
-  FWorkersList[AWorkerIndex].DoWork(FReader, Writer);
+  FWorkersList[AWorkerIndex].DoWork(Reader, Writer);
 end;
 
 end.
