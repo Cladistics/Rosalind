@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{D51DAD19-A268-4977-BF7C-1F81B7D9543E}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Rosalind.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="Test\WorkerTest.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Rosalind">
+        <MSBuild Projects="Rosalind.dproj"/>
+    </Target>
+    <Target Name="Rosalind:Clean">
+        <MSBuild Projects="Rosalind.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Rosalind:Make">
+        <MSBuild Projects="Rosalind.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="WorkerTest">
+        <MSBuild Projects="Test\WorkerTest.dproj"/>
+    </Target>
+    <Target Name="WorkerTest:Clean">
+        <MSBuild Projects="Test\WorkerTest.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="WorkerTest:Make">
+        <MSBuild Projects="Test\WorkerTest.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Rosalind;WorkerTest"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Rosalind:Clean;WorkerTest:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Rosalind:Make;WorkerTest:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>
