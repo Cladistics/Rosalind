@@ -22,7 +22,8 @@ uses
   uHAMM in '..\WorkerList\Workers\uHAMM.pas',
   uGC in '..\WorkerList\Workers\uGC.pas',
   uFIB in '..\WorkerList\Workers\uFIB.pas',
-  uDNA in '..\WorkerList\Workers\uDNA.pas';
+  uDNA in '..\WorkerList\Workers\uDNA.pas',
+  uFIBD in '..\WorkerList\Workers\uFIBD.pas';
 
 var
   runner : ITestRunner;

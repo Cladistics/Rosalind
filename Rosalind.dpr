@@ -16,7 +16,8 @@ uses
   uGC in 'WorkerList\Workers\uGC.pas',
   uHAMM in 'WorkerList\Workers\uHAMM.pas',
   uSUBS in 'WorkerList\Workers\uSUBS.pas',
-  uEnumerableList in 'WorkerList\uEnumerableList.pas';
+  uEnumerableList in 'WorkerList\uEnumerableList.pas',
+  uFIBD in 'WorkerList\Workers\uFIBD.pas';
 
 {$R *.res}
 
